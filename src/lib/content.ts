@@ -3,8 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type Row = Record<string, any>;
 
+export const db = supabase as any;
+
 async function list(table: string, order: { col: string; asc?: boolean }[] = [{ col: "sort_order" }]) {
-  let q = supabase.from(table).select("*");
+  let q = db.from(table).select("*");
   for (const o of order) q = q.order(o.col, { ascending: o.asc ?? true });
   const { data, error } = await q;
   if (error) throw error;
